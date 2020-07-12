@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
+import postgresql_api
+
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 CORS(app)
@@ -8,6 +10,11 @@ CORS(app)
 @app.route('/')
 def root():
     return "yai_pond GOT7"
+
+@app.route('/std_list')
+def std_list():
+    student_list = postgresql_api.get_student_data()
+    return  render_template('table.html',student_list=student_list)
 
 @app.route('/new_one')
 def new_one_function():
